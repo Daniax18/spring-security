@@ -17,6 +17,7 @@ public class User {
     @Column(name = "password")
     private String mdp;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     // Constructor
