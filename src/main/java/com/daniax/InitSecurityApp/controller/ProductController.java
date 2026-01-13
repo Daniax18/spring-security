@@ -5,6 +5,7 @@ import com.daniax.InitSecurityApp.entity.Product;
 import com.daniax.InitSecurityApp.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProductDTO productDto){
         try {
