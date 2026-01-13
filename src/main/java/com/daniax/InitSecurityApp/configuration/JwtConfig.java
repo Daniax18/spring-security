@@ -24,6 +24,34 @@ public class JwtConfig extends OncePerRequestFilter {
         this.jwtUtils = jwtUtils;
     }
 
+    /**
+     * Filtre JWT exécuté à chaque requête HTTP entrante.
+     *
+     * <p>
+     * Ce filtre intercepte les requêtes afin de :
+     * <ul>
+     *     <li>Extraire le token JWT depuis l'en-tête HTTP <b>Authorization</b></li>
+     *     <li>Valider le token (signature, expiration, cohérence utilisateur)</li>
+     *     <li>Authentifier l'utilisateur dans le contexte de sécurité Spring</li>
+     * </ul>
+     *
+     * <p>
+     * Si le token est valide, l'utilisateur est automatiquement authentifié
+     * et ses rôles (authorities) sont injectés dans le {@link SecurityContextHolder}.
+     * Cela permet ensuite à Spring Security de gérer l'autorisation
+     * (ex: {@code @PreAuthorize}, {@code hasRole()}, etc.).
+     *
+     * <p>
+     * Ce filtre est positionné avant {@link UsernamePasswordAuthenticationFilter}
+     * dans la chaîne de sécurité.
+     *
+     * @param request  requête HTTP entrante
+     * @param response réponse HTTP sortante
+     * @param filterChain chaîne de filtres Spring Security
+     * @throws ServletException en cas d'erreur liée au traitement du filtre
+     * @throws IOException en cas d'erreur d'entrée/sortie
+     */
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
