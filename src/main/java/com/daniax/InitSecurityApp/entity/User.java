@@ -21,8 +21,6 @@ public class User {
     private Role role;
 
     // Constructor
-
-
     public User() {
     }
 
